@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const ejs = require("ejs");
 const config = require('config-lite')(__dirname);
 const routes = require('./routes');
@@ -17,6 +18,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 使用 bodyParser
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // 接收表单上传的图片
 app.use(require('express-formidable')({
