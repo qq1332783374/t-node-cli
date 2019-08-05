@@ -1,6 +1,15 @@
 // 路由统一入口
 module.exports = (app) => {
-    app.use('/', require('./test'))
+    // 首页
+    app.get('/', (req, res) => {
+        res.render('index')
+    })
+
+    // 注册
+    app.use('/signup', require('./signup'))
+
+    // 登陆
+    app.use('/signin', require('./signin'))
 
     // 404 处理
     app.get('*', (req, res) => {

@@ -19,6 +19,7 @@
     "express": "4.17.1",
     "express-formidable": "1.2.0",
     "express-winston": "3.2.1",
+    "gravatar": "^1.8.0",
     "moment": "2.24.0",
     "mongoose": "5.6.8",
     "morgan": "1.9.1",
