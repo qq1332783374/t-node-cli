@@ -1,3 +1,5 @@
+// 注册模块
+
 // 导入依赖
 const express = require('express');
 const router = express.Router();
@@ -36,7 +38,11 @@ router.post('/', (req, res) => {
                     .then((newUser) => {
                         console.log('newUser')
                         console.log(newUser)
-                        return res.status(200).json(newUser)
+                        return res.status(200).json({
+                            status: 1,
+                            message: '注册成功',
+                            userInfo: newUser
+                        })
                     })
             }
         })

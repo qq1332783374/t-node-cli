@@ -7,6 +7,7 @@ const routes = require('./routes');
 const pkg = require('./package');
 const morgan = require('morgan');
 const winston = require('./config/winston');
+const passport = require('passport');
 
 // 实例化对象
 const app = express();
@@ -22,6 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 使用 bodyParser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+// 初始化 passprot
+app.use(passport.initialize());
+require('./config/passport')(passport)
 
 // 接收表单上传的图片
 app.use(require('express-formidable')({

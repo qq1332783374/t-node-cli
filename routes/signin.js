@@ -1,15 +1,21 @@
+// 登陆模块
+
 // 导入依赖
 const express = require('express');
 const router = express.Router();
-const sha1 = require('sha1');
+const sha1 = require('sha1'); // 密码加密
+const jwt = require('jsonwebtoken');  // token 验证
+const config = require('config-lite')(__dirname);
+const passport = require("passport");
 
 // 数据 model
 const UserModel = require('../models/users')
 
 router.get('/', (req, res) => {
     res.send('signin')
-})
+});
 
+// 登陆获取token
 router.post('/', (req, res) => {
     let email = req.query.email,
         password = req.query.password
@@ -27,9 +33,16 @@ router.post('/', (req, res) => {
 
             // 匹配密码
             if (sha1(password) === user.password) {
-                return res.status(200).json({
-                    status: 1,
-                    message: '登陆成功'
+                const rule = {
+                    id: user._id,
+                    name: user.name
+                };
+                jwt.sign(rule, config.secretOrKey, {expiresIn: 3600}, (err, token) => {
+                    if (err) throw err;
+                    res.json({
+                        success: true,
+                        token: token
+                    })
                 })
             } else {
                 return res.status(400).json({
@@ -38,6 +51,22 @@ router.post('/', (req, res) => {
                 })
             }
         })
-})
+});
 
-module.exports = router
+//get api/users/current 获取用户信息接口
+// return curren user
+router.get("/current",passport.authenticate("jwt",{session:false}),(req,res)=>{
+    res.json({
+        status: 1,
+        message: '登陆成功',
+        userInfo: {
+            id:req.user.id,
+            name:req.user.name,
+            email:req.user.email,
+            avatar: req.user.avatar,
+            createdTime: req.user.date
+        }
+    })
+});
+
+module.exports = router;
