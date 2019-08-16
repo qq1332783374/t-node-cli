@@ -11,4 +11,4 @@ module.exports = {
         return User
             .findOne({email: eMaile})
     }
-}
+};

@@ -10,13 +10,13 @@ const sha1 = require('sha1');
 const UserModel = require('../models/users')
 
 router.post('/', (req, res) => {
-    let name = req.query.name,
-        email = req.query.email,
-        password = req.query.password,
+    let name = req.body.name,
+        email = req.body.email,
+        password = req.body.password,
         avatar = gravatar.url(email, {s: '200', r: 'pg', d: 'mm'});
 
     // 通过邮箱查找
-    UserModel.findByEmail(req.query.email)
+    UserModel.findByEmail(req.body.email)
         .then((user) => {
             if (user) {
                 return res.status(400).json({

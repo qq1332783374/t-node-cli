@@ -20,8 +20,10 @@ app.set('views', path.join(__dirname, 'views'));
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 使用 bodyParser
-app.use(bodyParser.urlencoded({extended: false}));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
 app.use(bodyParser.json());
 
 // 初始化 passprot
@@ -29,10 +31,10 @@ app.use(passport.initialize());
 require('./config/passport')(passport)
 
 // 接收表单上传的图片
-app.use(require('express-formidable')({
-    uploadDir: path.join(__dirname, 'public/img'), // 文件上传目录
-    keepExtensions: true // 保留文件后缀
-}));
+// app.use(require('express-formidable')({
+//     uploadDir: path.join(__dirname, 'public/img'), // 文件上传目录
+//     keepExtensions: true // 保留文件后缀
+// }));
 
 // 日志打印输入
 app.use(morgan('combined', { stream: winston.stream }));
